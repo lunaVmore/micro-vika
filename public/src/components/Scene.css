@@ -1,0 +1,170 @@
+.scene {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* Кнопка назад */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: gold;
+}
+
+/* Кнопки навигации */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: gold;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-button.prev {
+  left: 20px;
+}
+
+.nav-button.next {
+  right: 20px;
+}
+
+/* Персонаж */
+.character-wrapper {
+  position: absolute;
+  bottom: 100px;
+  height: 70vh;
+  transition: all 0.5s ease;
+}
+
+.character-wrapper.left {
+  left: 10%;
+}
+
+.character-wrapper.center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.character-wrapper.right {
+  right: 10%;
+}
+
+.character-image {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+/* Солнце */
+.sun {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #ffdd00, #ff9900);
+  border-radius: 50%;
+  position: absolute;
+  cursor: grab;
+  box-shadow: 0 0 50px #ffaa00;
+  z-index: 200;
+}
+
+.sun:active {
+  cursor: grabbing;
+}
+
+.sun-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(255, 221, 0, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Имя персонажа */
+.character-name {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 30px;
+  border-radius: 40px;
+  backdrop-filter: blur(5px);
+  z-index: 50;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+  .nav-button {
+    display: none; /* на мобильных используем свайп */
+  }
+  
+  .character-wrapper {
+    height: 50vh;
+    bottom: 150px;
+  }
+  
+  .character-name {
+    font-size: 1.5rem;
+    bottom: 80px;
+  }
+  
+  .sun {
+    width: 60px;
+    height: 60px;
+  }
+}
