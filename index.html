@@ -232,78 +232,53 @@
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+            position: relative;
+            z-index: 2;
         }
 
-        /* Солнце */
-        .sun {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #ffdd00, #ff9900);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 50px #ffaa00;
-            z-index: 200;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .sun:active {
-            cursor: grabbing;
-        }
-
-        .sun::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(255, 221, 0, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 3s infinite;
-        }
-
-        /* Игровой бабл (диалоговое окно) */
+        /* Игровой бабл (белый с чёрным контуром) */
         .game-bubble {
             position: absolute;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 215, 0, 0.5);
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid black;
             border-radius: 20px 20px 20px 5px;
             padding: 15px 20px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            min-width: 280px;
-            z-index: 300;
-            transition: all 0.3s ease;
+            color: black;
+            box-shadow: 0 10px 0 rgba(0, 0, 0, 0.2);
+            min-width: 300px;
+            z-index: 10;
         }
 
         .game-bubble::after {
             content: '';
             position: absolute;
-            bottom: -15px;
-            left: 30px;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-top: 15px solid rgba(0, 0, 0, 0.85);
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+            border-top: 15px solid white;
+            filter: drop-shadow(3px 3px 0 black);
+            z-index: 1;
         }
 
-        .game-bubble.left::after {
-            left: 30px;
-        }
-
-        .game-bubble.right::after {
-            left: auto;
-            right: 30px;
-        }
-
-        .game-bubble.center::after {
+        .game-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -22px;
             left: 50%;
             transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-top: 18px solid black;
+            z-index: 0;
         }
 
         .bubble-header {
@@ -312,6 +287,7 @@
             gap: 10px;
             margin-bottom: 12px;
             font-size: 0.95rem;
+            font-weight: bold;
         }
 
         .bubble-avatar {
@@ -319,24 +295,26 @@
             height: 24px;
             border-radius: 50%;
             background: gold;
+            border: 2px solid black;
         }
 
         .bubble-name {
             font-weight: bold;
-            color: gold;
+            color: black;
             letter-spacing: 0.5px;
         }
 
         .bubble-time {
             margin-left: auto;
             font-size: 0.8rem;
-            opacity: 0.7;
+            color: #666;
         }
 
         .voice-message {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 8px;
         }
 
         .play-button {
@@ -344,7 +322,7 @@
             height: 44px;
             border-radius: 50%;
             background: gold;
-            border: none;
+            border: 2px solid black;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -353,18 +331,31 @@
             color: black;
             transition: all 0.2s ease;
             flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         .play-button:hover {
-            transform: scale(1.1);
-            background: #ffd700;
-            box-shadow: 0 0 25px gold;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .play-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Таймлайн */
+        .timeline-container {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
         }
 
         .waveform {
-            flex: 1;
-            height: 40px;
+            height: 30px;
             display: flex;
             align-items: center;
             gap: 3px;
@@ -373,7 +364,7 @@
         .waveform-bar {
             width: 4px;
             height: 100%;
-            background: rgba(255, 255, 255, 0.3);
+            background: #ddd;
             border-radius: 2px;
             transition: all 0.1s ease;
         }
@@ -396,17 +387,48 @@
         .waveform-bar:nth-child(11) { height: 55%; }
         .waveform-bar:nth-child(12) { height: 75%; }
 
-        .bubble-footer {
-            margin-top: 8px;
-            font-size: 0.75rem;
-            opacity: 0.5;
-            text-align: right;
-            font-style: italic;
+        .timeline-slider {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+        .timeline-progress {
+            height: 100%;
+            background: gold;
+            border-radius: 2px;
+            width: 0%;
+            position: relative;
+        }
+
+        .timeline-progress::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: gold;
+            border: 2px solid black;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .timeline-slider:hover .timeline-progress::after {
+            opacity: 1;
+        }
+
+        .bubble-footer {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: right;
+            font-style: italic;
+            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
@@ -417,10 +439,6 @@
                 height: 50vh;
                 bottom: 150px;
             }
-            .sun {
-                width: 60px;
-                height: 60px;
-            }
             .header {
                 padding: 15px 20px;
             }
@@ -429,7 +447,7 @@
                 left: 20px;
             }
             .game-bubble {
-                min-width: 240px;
+                min-width: 260px;
                 padding: 12px 15px;
             }
         }
@@ -458,8 +476,8 @@
         <div class="character-wrapper center" id="characterWrapper">
             <img class="character-image" id="characterImage" src="" alt="">
             
-            <!-- Игровой бабл (диалоговое окно) -->
-            <div class="game-bubble center" id="gameBubble">
+            <!-- Игровой бабл (белый с чёрным контуром) -->
+            <div class="game-bubble" id="gameBubble">
                 <div class="bubble-header">
                     <div class="bubble-avatar"></div>
                     <span class="bubble-name" id="bubbleName">Пёсик</span>
@@ -467,26 +485,29 @@
                 </div>
                 <div class="voice-message">
                     <button class="play-button" id="playButton">▶</button>
-                    <div class="waveform" id="waveform">
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
-                        <div class="waveform-bar"></div>
+                    <div class="timeline-container">
+                        <div class="waveform" id="waveform">
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                            <div class="waveform-bar"></div>
+                        </div>
+                        <div class="timeline-slider" id="timelineSlider">
+                            <div class="timeline-progress" id="timelineProgress"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="bubble-footer">голосовое сообщение</div>
             </div>
         </div>
-        
-        <div class="sun" id="sun"></div>
     </div>
 
     <audio id="audioPlayer" loop></audio>
@@ -501,7 +522,7 @@
                 background: 'public/images/backgrounds/forest.png',
                 audio: 'public/audio/dog_forest_01.mp3',
                 position: 'center',
-                bubbleOffset: { x: 0, y: -50 } // для точной настройки позже
+                bubbleOffset: { x: 0, y: 0 }
             },
             {
                 id: 'girl',
@@ -510,7 +531,7 @@
                 background: 'public/images/backgrounds/garden.png',
                 audio: 'public/audio/girl_garden_01.mp3',
                 position: 'center',
-                bubbleOffset: { x: 0, y: -50 }
+                bubbleOffset: { x: 0, y: 0 }
             },
             {
                 id: 'sorceress',
@@ -519,15 +540,14 @@
                 background: 'public/images/backgrounds/magic_garden.png',
                 audio: 'public/audio/sorceress_magicgarden_01.mp3',
                 position: 'center',
-                bubbleOffset: { x: 0, y: -50 }
+                bubbleOffset: { x: 0, y: 0 }
             }
         ];
 
         let currentCharIndex = 0;
-        let isDragging = false;
         let isPlaying = false;
+        let isSeeking = false;
         let audio = document.getElementById('audioPlayer');
-        let sun = document.getElementById('sun');
         let scene = document.getElementById('scene');
         let menu = document.getElementById('menu');
         let characterImage = document.getElementById('characterImage');
@@ -537,13 +557,8 @@
         let bubbleTime = document.getElementById('bubbleTime');
         let playButton = document.getElementById('playButton');
         let waveformBars = document.querySelectorAll('.waveform-bar');
-
-        // Границы солнца
-        const sunBounds = {
-            minX: 50,
-            maxX: window.innerWidth - 130,
-            y: window.innerHeight - 150
-        };
+        let timelineSlider = document.getElementById('timelineSlider');
+        let timelineProgress = document.getElementById('timelineProgress');
 
         // Отрисовка главного меню
         function renderMenu() {
@@ -581,25 +596,16 @@
             characterImage.src = char.image;
             bubbleName.textContent = char.name;
             
-            // Позиция персонажа и бабла
+            // Позиция персонажа
             characterWrapper.className = `character-wrapper ${char.position}`;
-            gameBubble.className = `game-bubble ${char.position}`;
-            
-            // Применяем смещение, если нужно
-            if (char.bubbleOffset) {
-                gameBubble.style.transform = `translate(${char.bubbleOffset.x}px, ${char.bubbleOffset.y}px)`;
-            }
             
             // Аудио
             audio.src = char.audio;
             audio.load();
             
-            // Сброс солнца
-            sun.style.left = sunBounds.minX + 'px';
-            sun.style.top = sunBounds.y + 'px';
-            
             // Сброс плеера
             updateWaveform(0);
+            updateTimeline(0);
             updateTimeDisplay();
         }
 
@@ -623,10 +629,29 @@
                 if (index < activeBars) {
                     bar.style.background = 'gold';
                 } else {
-                    bar.style.background = 'rgba(255, 255, 255, 0.3)';
+                    bar.style.background = '#ddd';
                 }
             });
         }
+
+        // Обновление таймлайна
+        function updateTimeline(progress) {
+            timelineProgress.style.width = `${progress * 100}%`;
+        }
+
+        // Перемотка по клику на таймлайн
+        timelineSlider.addEventListener('click', (e) => {
+            const rect = timelineSlider.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const width = rect.width;
+            const progress = Math.max(0, Math.min(1, x / width));
+            
+            if (audio.duration) {
+                audio.currentTime = progress * audio.duration;
+                updateWaveform(progress);
+                updateTimeline(progress);
+            }
+        });
 
         // Навигация
         document.getElementById('prevButton').onclick = () => {
@@ -680,39 +705,8 @@
             if (audio.duration) {
                 const progress = audio.currentTime / audio.duration;
                 updateWaveform(progress);
+                updateTimeline(progress);
             }
-        });
-
-        // Солнце (перетаскивание)
-        let isSunDragging = false;
-        let startX, startLeft;
-
-        sun.addEventListener('mousedown', (e) => {
-            isSunDragging = true;
-            startX = e.clientX;
-            startLeft = parseInt(sun.style.left) || sunBounds.minX;
-            sun.style.cursor = 'grabbing';
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isSunDragging) return;
-            
-            let dx = e.clientX - startX;
-            let newLeft = startLeft + dx;
-            
-            newLeft = Math.max(sunBounds.minX, Math.min(sunBounds.maxX, newLeft));
-            sun.style.left = newLeft + 'px';
-            
-            if (audio.duration) {
-                const progress = (newLeft - sunBounds.minX) / (sunBounds.maxX - sunBounds.minX);
-                audio.currentTime = progress * audio.duration;
-                updateWaveform(progress);
-            }
-        });
-
-        window.addEventListener('mouseup', () => {
-            isSunDragging = false;
-            sun.style.cursor = 'grab';
         });
 
         // Свайп для мобильных
@@ -742,15 +736,8 @@
 
         // Инициализация
         renderMenu();
-        sun.style.left = sunBounds.minX + 'px';
-        sun.style.top = sunBounds.y + 'px';
         updateWaveform(0);
-
-        // Обработка resize
-        window.addEventListener('resize', () => {
-            sunBounds.maxX = window.innerWidth - 130;
-            sunBounds.y = window.innerHeight - 150;
-        });
+        updateTimeline(0);
     </script>
 </body>
 </html>
