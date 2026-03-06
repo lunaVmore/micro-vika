@@ -17,6 +17,41 @@
             background: #1a1a2e;
         }
 
+        /* Хедер */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+            border-color: gold;
+            box-shadow: 0 0 30px gold;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* Главное меню */
         .menu {
             width: 100vw;
@@ -28,6 +63,7 @@
             justify-content: center;
             color: white;
             transition: opacity 0.5s ease;
+            padding-top: 80px;
         }
 
         .menu.hidden {
@@ -35,7 +71,7 @@
             pointer-events: none;
         }
 
-        .logo {
+        .title {
             font-size: 4rem;
             margin-bottom: 3rem;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
@@ -117,8 +153,8 @@
 
         .back-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 100px;
+            left: 40px;
             padding: 10px 20px;
             background: rgba(0, 0, 0, 0.5);
             color: white;
@@ -170,6 +206,7 @@
             right: 20px;
         }
 
+        /* Персонаж */
         .character-wrapper {
             position: absolute;
             bottom: 100px;
@@ -197,6 +234,7 @@
             filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
         }
 
+        /* Солнце */
         .sun {
             position: absolute;
             width: 80px;
@@ -226,24 +264,149 @@
             animation: pulse 3s infinite;
         }
 
+        /* Игровой бабл (диалоговое окно) */
+        .game-bubble {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 20px 20px 20px 5px;
+            padding: 15px 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            min-width: 280px;
+            z-index: 300;
+            transition: all 0.3s ease;
+        }
+
+        .game-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 30px;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid rgba(0, 0, 0, 0.85);
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+        }
+
+        .game-bubble.left::after {
+            left: 30px;
+        }
+
+        .game-bubble.right::after {
+            left: auto;
+            right: 30px;
+        }
+
+        .game-bubble.center::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bubble-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .bubble-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: gold;
+        }
+
+        .bubble-name {
+            font-weight: bold;
+            color: gold;
+            letter-spacing: 0.5px;
+        }
+
+        .bubble-time {
+            margin-left: auto;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .voice-message {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .play-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: gold;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: black;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: #ffd700;
+            box-shadow: 0 0 25px gold;
+        }
+
+        .waveform {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .waveform-bar {
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            transition: all 0.1s ease;
+        }
+
+        .waveform-bar.active {
+            background: gold;
+            height: 100%;
+        }
+
+        .waveform-bar:nth-child(1) { height: 30%; }
+        .waveform-bar:nth-child(2) { height: 50%; }
+        .waveform-bar:nth-child(3) { height: 80%; }
+        .waveform-bar:nth-child(4) { height: 60%; }
+        .waveform-bar:nth-child(5) { height: 40%; }
+        .waveform-bar:nth-child(6) { height: 70%; }
+        .waveform-bar:nth-child(7) { height: 90%; }
+        .waveform-bar:nth-child(8) { height: 45%; }
+        .waveform-bar:nth-child(9) { height: 65%; }
+        .waveform-bar:nth-child(10) { height: 35%; }
+        .waveform-bar:nth-child(11) { height: 55%; }
+        .waveform-bar:nth-child(12) { height: 75%; }
+
+        .bubble-footer {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            text-align: right;
+            font-style: italic;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
             50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        .character-name {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px 30px;
-            border-radius: 40px;
-            backdrop-filter: blur(5px);
-            z-index: 50;
         }
 
         @media (max-width: 768px) {
@@ -254,21 +417,35 @@
                 height: 50vh;
                 bottom: 150px;
             }
-            .character-name {
-                font-size: 1.5rem;
-                bottom: 80px;
-            }
             .sun {
                 width: 60px;
                 height: 60px;
+            }
+            .header {
+                padding: 15px 20px;
+            }
+            .back-button {
+                top: 90px;
+                left: 20px;
+            }
+            .game-bubble {
+                min-width: 240px;
+                padding: 12px 15px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Хедер с логотипом -->
+    <div class="header">
+        <div class="logo" id="logo">
+            <img src="logo.png" alt="Micro-Vika" onerror="this.src='https://via.placeholder.com/60?text=MV'">
+        </div>
+    </div>
+
     <!-- Главное меню -->
     <div class="menu" id="menu">
-        <h1 class="logo">Micro-Vika</h1>
+        <h1 class="title">Micro-Vika</h1>
         <div class="characters-grid" id="charactersGrid"></div>
     </div>
 
@@ -280,10 +457,36 @@
         
         <div class="character-wrapper center" id="characterWrapper">
             <img class="character-image" id="characterImage" src="" alt="">
+            
+            <!-- Игровой бабл (диалоговое окно) -->
+            <div class="game-bubble center" id="gameBubble">
+                <div class="bubble-header">
+                    <div class="bubble-avatar"></div>
+                    <span class="bubble-name" id="bubbleName">Пёсик</span>
+                    <span class="bubble-time" id="bubbleTime">0:00 / 0:00</span>
+                </div>
+                <div class="voice-message">
+                    <button class="play-button" id="playButton">▶</button>
+                    <div class="waveform" id="waveform">
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                    </div>
+                </div>
+                <div class="bubble-footer">голосовое сообщение</div>
+            </div>
         </div>
         
         <div class="sun" id="sun"></div>
-        <div class="character-name" id="characterName"></div>
     </div>
 
     <audio id="audioPlayer" loop></audio>
@@ -297,7 +500,8 @@
                 image: 'public/images/characters/dog.png',
                 background: 'public/images/backgrounds/forest.png',
                 audio: 'public/audio/dog_forest_01.mp3',
-                position: 'center'
+                position: 'center',
+                bubbleOffset: { x: 0, y: -50 } // для точной настройки позже
             },
             {
                 id: 'girl',
@@ -305,7 +509,8 @@
                 image: 'public/images/characters/girl.png',
                 background: 'public/images/backgrounds/garden.png',
                 audio: 'public/audio/girl_garden_01.mp3',
-                position: 'center'
+                position: 'center',
+                bubbleOffset: { x: 0, y: -50 }
             },
             {
                 id: 'sorceress',
@@ -313,19 +518,25 @@
                 image: 'public/images/characters/sorceress.png',
                 background: 'public/images/backgrounds/magic_garden.png',
                 audio: 'public/audio/sorceress_magicgarden_01.mp3',
-                position: 'center'
+                position: 'center',
+                bubbleOffset: { x: 0, y: -50 }
             }
         ];
 
         let currentCharIndex = 0;
         let isDragging = false;
+        let isPlaying = false;
         let audio = document.getElementById('audioPlayer');
         let sun = document.getElementById('sun');
         let scene = document.getElementById('scene');
         let menu = document.getElementById('menu');
         let characterImage = document.getElementById('characterImage');
-        let characterName = document.getElementById('characterName');
         let characterWrapper = document.getElementById('characterWrapper');
+        let gameBubble = document.getElementById('gameBubble');
+        let bubbleName = document.getElementById('bubbleName');
+        let bubbleTime = document.getElementById('bubbleTime');
+        let playButton = document.getElementById('playButton');
+        let waveformBars = document.querySelectorAll('.waveform-bar');
 
         // Границы солнца
         const sunBounds = {
@@ -359,6 +570,8 @@
             menu.classList.add('hidden');
             scene.classList.add('active');
             audio.play();
+            isPlaying = true;
+            playButton.textContent = '⏸';
         }
 
         // Обновление сцены
@@ -366,10 +579,16 @@
             const char = characters[currentCharIndex];
             scene.style.backgroundImage = `url('${char.background}')`;
             characterImage.src = char.image;
-            characterName.textContent = char.name;
+            bubbleName.textContent = char.name;
             
-            // Позиция персонажа
+            // Позиция персонажа и бабла
             characterWrapper.className = `character-wrapper ${char.position}`;
+            gameBubble.className = `game-bubble ${char.position}`;
+            
+            // Применяем смещение, если нужно
+            if (char.bubbleOffset) {
+                gameBubble.style.transform = `translate(${char.bubbleOffset.x}px, ${char.bubbleOffset.y}px)`;
+            }
             
             // Аудио
             audio.src = char.audio;
@@ -378,6 +597,35 @@
             // Сброс солнца
             sun.style.left = sunBounds.minX + 'px';
             sun.style.top = sunBounds.y + 'px';
+            
+            // Сброс плеера
+            updateWaveform(0);
+            updateTimeDisplay();
+        }
+
+        // Обновление времени
+        function updateTimeDisplay() {
+            const current = formatTime(audio.currentTime);
+            const total = formatTime(audio.duration || 0);
+            bubbleTime.textContent = `${current} / ${total}`;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Обновление волн
+        function updateWaveform(progress) {
+            const activeBars = Math.floor(progress * waveformBars.length);
+            waveformBars.forEach((bar, index) => {
+                if (index < activeBars) {
+                    bar.style.background = 'gold';
+                } else {
+                    bar.style.background = 'rgba(255, 255, 255, 0.3)';
+                }
+            });
         }
 
         // Навигация
@@ -385,19 +633,55 @@
             currentCharIndex = (currentCharIndex - 1 + characters.length) % characters.length;
             updateScene();
             audio.play();
+            isPlaying = true;
+            playButton.textContent = '⏸';
         };
 
         document.getElementById('nextButton').onclick = () => {
             currentCharIndex = (currentCharIndex + 1) % characters.length;
             updateScene();
             audio.play();
+            isPlaying = true;
+            playButton.textContent = '⏸';
         };
 
         document.getElementById('backButton').onclick = () => {
             scene.classList.remove('active');
             menu.classList.remove('hidden');
             audio.pause();
+            isPlaying = false;
+            playButton.textContent = '▶';
         };
+
+        // Логотип (возврат в меню)
+        document.getElementById('logo').onclick = () => {
+            scene.classList.remove('active');
+            menu.classList.remove('hidden');
+            audio.pause();
+            isPlaying = false;
+            playButton.textContent = '▶';
+        };
+
+        // Кнопка play/pause
+        playButton.onclick = () => {
+            if (isPlaying) {
+                audio.pause();
+                playButton.textContent = '▶';
+            } else {
+                audio.play();
+                playButton.textContent = '⏸';
+            }
+            isPlaying = !isPlaying;
+        };
+
+        // Обновление времени аудио
+        audio.addEventListener('timeupdate', () => {
+            updateTimeDisplay();
+            if (audio.duration) {
+                const progress = audio.currentTime / audio.duration;
+                updateWaveform(progress);
+            }
+        });
 
         // Солнце (перетаскивание)
         let isSunDragging = false;
@@ -416,15 +700,13 @@
             let dx = e.clientX - startX;
             let newLeft = startLeft + dx;
             
-            // Ограничения
             newLeft = Math.max(sunBounds.minX, Math.min(sunBounds.maxX, newLeft));
-            
             sun.style.left = newLeft + 'px';
             
-            // Перемотка аудио
             if (audio.duration) {
                 const progress = (newLeft - sunBounds.minX) / (sunBounds.maxX - sunBounds.minX);
                 audio.currentTime = progress * audio.duration;
+                updateWaveform(progress);
             }
         });
 
@@ -453,6 +735,8 @@
                 }
                 updateScene();
                 audio.play();
+                isPlaying = true;
+                playButton.textContent = '⏸';
             }
         });
 
@@ -460,11 +744,13 @@
         renderMenu();
         sun.style.left = sunBounds.minX + 'px';
         sun.style.top = sunBounds.y + 'px';
+        updateWaveform(0);
 
-        // Обработка ошибок загрузки изображений
-        window.onerror = function(msg, url, line) {
-            console.log("Ошибка: " + msg + " в " + url + ":" + line);
-        };
+        // Обработка resize
+        window.addEventListener('resize', () => {
+            sunBounds.maxX = window.innerWidth - 130;
+            sunBounds.y = window.innerHeight - 150;
+        });
     </script>
 </body>
 </html>
